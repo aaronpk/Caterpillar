@@ -81,17 +81,17 @@ API Documentation
 -----------------
 
 ### `new Caterpillar($tube, $server, $port, $log_path)`
+
+Creates the Caterpillar object and configures it to use a specific tube, beanstalkd server and log path.
+
 * `$tube`: (default is the "default" tube) The name of the beanstalkd tube to use
 * `$server`: (default 127.0.0.1) The IP address or hostname of the beanstalkd server
 * `$port`: (default 11300) The port of the beanstalkd server
 * `$log_path`: (default "./log/") The path to use for all log files
 
-### `run_workers($num, $background)`
-
-* `$num`: (integer) The number of children to run
-* `$background`: (true, false) Whether to run the parent process in the background or foreground
-
 ### `queue($class, $method, $args, $opts)`
+
+Enqueues a new job onto the tube.
 
 * `$class`: (string) The class name of the task to run
 * `$method`: (string) The name of the static method in the class to run
@@ -101,6 +101,27 @@ API Documentation
 ** `ttr`: (default 300) The "time to run" of the job in seconds. If the job is not completed before the time is up, it will be put back onto the queue by beanstalkd.
 ** `priority`: (default 1024) The beanstalkd priority number to set for the job.
 
+### `run_workers($num, $background)`
+
+Runs the number of workers specified as separate child processes.
+
+* `$num`: (integer) The number of children to run
+* `$background`: (true, false) Whether to run the parent process in the background or foreground
+
+
+### `print_stats()`
+
+Outputs info about the number of jobs ready, delayed, buried, and the number of processes watching beanstalkd tubes.
+
+Sample output:
+
+```
+              tube  urgent  ready delayed buried  using watching
+           default  0       0     0       0       1     1
+  caterpillar-test  0       2     0       0       0     0
+```
+
+See the beanstalkd documentation for more details on what each of these mean.
 
 
 TODO
