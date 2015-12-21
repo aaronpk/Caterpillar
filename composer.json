@@ -3,7 +3,7 @@
   "description": "Caterpillar is a background queue manager",
   "require": {
     "php": ">5.4.0",
-    "pda/pheanstalk": "dev-master"
+    "pda/pheanstalk": "3.*"
   },
   "license": "Apache 2.0",
   "authors": [

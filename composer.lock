@@ -1,18 +1,25 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "881145db31c37a040f319c0b6be0fb4c",
+    "hash": "a0940694bce239d7abcfd1e6435fb249",
+    "content-hash": "6eaa4b2f79164912133716c65500d4ce",
     "packages": [
         {
             "name": "pda/pheanstalk",
-            "version": "dev-master",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
-                "url": "/Users/aaronpk/Code/Monocle/vendor/pda/pheanstalk/.git",
-                "reference": "eb6407431e09ddc1fe99ce40f61ee8d0e622cd22"
+                "url": "https://github.com/pda/pheanstalk.git",
+                "reference": "430e77c551479aad0c6ada0450ee844cf656a18b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pda/pheanstalk/zipball/430e77c551479aad0c6ada0450ee844cf656a18b",
+                "reference": "430e77c551479aad0c6ada0450ee844cf656a18b",
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
@@ -31,6 +38,7 @@
                     "Pheanstalk\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -47,16 +55,15 @@
             "keywords": [
                 "beanstalkd"
             ],
-            "time": "2015-03-08 22:40:31"
+            "time": "2015-08-07 21:42:41"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "pda/pheanstalk": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">5.4.0"
     },

@@ -12,4 +12,4 @@ class TestTask {
 $logdir = __DIR__.'/log/';
 
 $c = new Caterpillar('caterpillar-test', '127.0.0.1', 11300, $logdir);
-$c->run_workers(2, true);
+$c->run_workers(2);
