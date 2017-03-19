@@ -212,6 +212,13 @@ class Caterpillar {
     $this->_remove_pidfile();
   }
 
+  public function run_foreground() {
+    $c = new Caterpillar($this->_tube, $this->_server, $this->_port, $this->_log_path);
+    $c->_child_id = 0;
+    self::$PCNTL_CONTINUE = TRUE;
+    $c->_run_worker();
+  }
+
   private function _daemonize() {
     // Fork the current process
     $pid = pcntl_fork();
