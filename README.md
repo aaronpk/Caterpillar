@@ -21,6 +21,8 @@ Add this to your composer.json file in the "require" section:
 Usage
 -----
 
+The working example in the `example` folder is explained in more detail below.
+
 ### Queuing Tasks
 
 To queue a task, first create a new `Caterpillar` object and pass in the beanstalkd tube name you want to use, as well as the beanstalkd server and a path to write log files.
@@ -51,20 +53,12 @@ for($i=0; $i<10; $i++) {
 
 ### Running Workers
 
-To run the workers, you'll first need to make a Caterpillar object the same way you did to queue jobs. Then just run the `run_workers` method with the number of concurrent processes you want to run as the first argument. The script will fork this many children and they will all run in parallel, managed by the parent process.
+To run the workers, create a script that will run the `run_workers` command on the `Caterpillar` class. You'll first need to make a Caterpillar object the same way you did to queue jobs to set up its config. Then just run the `run_workers` method with the number of concurrent processes you want to run as the first argument. The script will fork this many children and they will all run in parallel, managed by the parent process.
 
 ```php
 require_once(__DIR__.'/vendor/autoload.php');
 
-// Make sure you load your environment and any of the classes that are being used as workers
-
-class TestTask {
-  public static function run($val) {
-    echo "Running task $val ... ";
-    usleep(rand(750000,2000000));
-    echo "finished!\n";
-  }
-}
+// Make sure you load your environment and any of the classes that are being used as workers.
 
 $logdir = __DIR__.'/log/';
 
@@ -76,6 +70,38 @@ When you run this from the console, the parent process stays in the foreground. 
 
 If you want to run the parent process in the background, such as when using some system init methods, you can pass `true` as the second argument, e.g. `$c->run_workers(2, true)`.
 
+#### Running as a System Service
+
+For production use, you'll likely want to run the workers as a system service so that they start when the server boots, and continue running automatically. How you do this will depend on the particular operating system you're using. You'll need to configure a system-level startup script to run your worker file that we described above.
+
+##### systemd
+For Ubuntu using systemd, you can create an init script like the below, and save as `/etc/init/yourservice.conf`
+
+```
+description "caterpillar worker"
+
+start on runlevel [2345]
+stop on runlevel [016]
+
+respawn
+exec sudo -u ubuntu /usr/bin/php /web/sites/example.com/scripts/worker.php >> /web/sites/example.com/scripts/logs/init.log 2>&1
+```
+
+##### supervisord
+Using supervisord, you can create a config file like the below, and save as `/etc/supervisor/conf.d/yourservice.conf`
+
+```
+[program:example]
+process_name=%(program_name)s_%(process_num)02d
+command=php /web/sites/example.com/scripts/worker.php
+autostart=true
+autorestart=true
+user=www-data
+numprocs=4
+redirect_stderr=true
+stdout_logfile=/web/sites/example.com/logs/init.log
+
+```
 
 API Documentation
 -----------------
@@ -134,7 +160,7 @@ TODO
 License
 -------
 
-Copyright 2015 by Aaron Parecki
+Copyright 2015-2017 by Aaron Parecki
 
 Available under the Apache 2.0 License. See LICENSE.txt
 
